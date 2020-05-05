@@ -1,12 +1,25 @@
 package org.dieschnittstelle.ess.basics;
 
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.dieschnittstelle.ess.basics.annotations.AnnotatedStockItemBuilder;
 import org.dieschnittstelle.ess.basics.annotations.StockItemProxyImpl;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+import java.lang.reflect.Field;
+import java.lang.reflect.Type;
+import java.util.*;
 
 import static org.dieschnittstelle.ess.utils.Utils.*;
 
 public class ShowAnnotations {
+
+	protected static Logger logger = LogManager
+			.getLogger(ShowAnnotations.class);
 
 	public static void main(String[] args) {
 		// we initialise the collection
@@ -16,7 +29,6 @@ public class ShowAnnotations {
 		collection.load();
 
 		for (IStockItem consumable : collection.getStockItems()) {
-			;
 			showAttributes(((StockItemProxyImpl)consumable).getProxiedObject());
 		}
 
@@ -30,7 +42,28 @@ public class ShowAnnotations {
 	 * TODO BAS2
 	 */
 	private static void showAttributes(Object consumable) {
-		show("class is: " + consumable.getClass());
-	}
+		final Class consumableClass = consumable.getClass();
+		show("class is: " + consumableClass);
 
+		// Result string.
+		String result = "{" + consumableClass.getSimpleName();
+
+		// Iterate over the declared fields and append the values to the result string.
+		for(Field classField : consumableClass.getDeclaredFields()) {
+			// Set accessibility to true.
+			classField.setAccessible(true);
+
+			try {
+				// Get and append the field value.
+				result = result.concat(" " + classField.getName() + ":" + classField.get(consumable) + ",");
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			}
+		}
+
+		// Replace char at last index.
+		result = result.substring(0, result.length() -1).concat("}");
+		show(result);
+	}
 }
+
