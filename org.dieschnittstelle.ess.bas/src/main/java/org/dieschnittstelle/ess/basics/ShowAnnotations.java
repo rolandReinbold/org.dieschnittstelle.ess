@@ -4,6 +4,7 @@ package org.dieschnittstelle.ess.basics;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.dieschnittstelle.ess.basics.annotations.AnnotatedStockItemBuilder;
+import org.dieschnittstelle.ess.basics.annotations.DisplayAs;
 import org.dieschnittstelle.ess.basics.annotations.StockItemProxyImpl;
 
 import java.lang.annotation.ElementType;
@@ -54,16 +55,22 @@ public class ShowAnnotations {
 			classField.setAccessible(true);
 
 			try {
+				String fieldName = classField.getName();
+				if (classField.isAnnotationPresent(DisplayAs.class)) {
+					DisplayAs displayAsAnnotation = classField.getAnnotation(DisplayAs.class);
+					fieldName = displayAsAnnotation.value();
+				}
+
 				// Get and append the field value.
-				result = result.concat(" " + classField.getName() + ":" + classField.get(consumable) + ",");
+				result = result.concat(" " + fieldName + ":" + classField.get(consumable) + ",");
 			} catch (IllegalAccessException e) {
 				e.printStackTrace();
 			}
 		}
 
-		// Replace char at last index.
-		result = result.substring(0, result.length() -1).concat("}");
-		show(result);
+	// Replace char at last index.
+	result = result.substring(0, result.length() -1).concat("}");
+	show(result);
 	}
 }
 
