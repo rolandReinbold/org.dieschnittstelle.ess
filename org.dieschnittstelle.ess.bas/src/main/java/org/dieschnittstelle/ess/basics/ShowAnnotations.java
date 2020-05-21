@@ -7,13 +7,7 @@ import org.dieschnittstelle.ess.basics.annotations.AnnotatedStockItemBuilder;
 import org.dieschnittstelle.ess.basics.annotations.DisplayAs;
 import org.dieschnittstelle.ess.basics.annotations.StockItemProxyImpl;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
 import java.lang.reflect.Field;
-import java.lang.reflect.Type;
-import java.util.*;
 
 import static org.dieschnittstelle.ess.utils.Utils.*;
 
@@ -40,7 +34,7 @@ public class ShowAnnotations {
 	}
 
 	/*
-	 * TODO BAS2
+	 * Print attributes of given consumable object.
 	 */
 	private static void showAttributes(Object consumable) {
 		final Class consumableClass = consumable.getClass();

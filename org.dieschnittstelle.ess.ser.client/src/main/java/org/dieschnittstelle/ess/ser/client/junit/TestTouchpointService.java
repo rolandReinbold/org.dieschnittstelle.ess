@@ -44,7 +44,6 @@ public class TestTouchpointService {
 		client.deleteTouchpoint(tp);
 		assertEquals("deletion reduces touchpoint list", initialTps.size(),
 				client.readAllTouchpoints().size());
-
 	}
 
 	private AbstractTouchpoint getTouchpointFromList(

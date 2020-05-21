@@ -18,7 +18,7 @@ public class TouchpointCRUDServiceImpl implements ITouchpointCRUDService {
 	/**
 	 * this accessor will be provided by the ServletContext, to which it is written by the TouchpointServletContextListener
 	 */
-	private GenericCRUDExecutor<AbstractTouchpoint> touchpointCRUD;
+	private final GenericCRUDExecutor<AbstractTouchpoint> touchpointCRUD;
 
 	/**
 	 * here we will be passed the context parameters by the resteasy framework
@@ -32,21 +32,15 @@ public class TouchpointCRUDServiceImpl implements ITouchpointCRUDService {
 		
 		logger.debug("read out the touchpointCRUD from the servlet context: " + this.touchpointCRUD);		
 	}
-	
+
+	@Override
+	public StationaryTouchpoint createTouchpoint(StationaryTouchpoint touchpoint) {
+		return (StationaryTouchpoint)this.touchpointCRUD.createObject(touchpoint);
+	}
 
 	@Override
 	public List<StationaryTouchpoint> readAllTouchpoints() {
 		return (List)this.touchpointCRUD.readAllObjects();
-	}
-
-	@Override
-	public StationaryTouchpoint createTouchpoint(StationaryTouchpoint touchpoint) {
-		return (StationaryTouchpoint)this.touchpointCRUD.createObject(touchpoint);	
-	}
-
-	@Override
-	public boolean deleteTouchpoint(long id) {
-		return this.touchpointCRUD.deleteObject(id);	
 	}
 
 	@Override
@@ -57,5 +51,13 @@ public class TouchpointCRUDServiceImpl implements ITouchpointCRUDService {
 	/*
 	 * UE JRS1: implement the method for updating touchpoints
 	 */
+	@Override
+	public StationaryTouchpoint updateTouchpoint(long id, StationaryTouchpoint touchpoint) {
+		return null;
+	}
 
+	@Override
+	public boolean deleteTouchpoint(long id) {
+		return this.touchpointCRUD.deleteObject(id);	
+	}
 }
