@@ -8,6 +8,8 @@ import org.apache.logging.log4j.Logger;
 
 import javax.persistence.*;
 
+@Entity
+@Table(name = "productbundle")
 public class ProductBundle implements Serializable {
 
 	protected static Logger logger = org.apache.logging.log4j.LogManager.getLogger(ProductBundle.class);
@@ -17,9 +19,12 @@ public class ProductBundle implements Serializable {
 	 */
 	private static final long serialVersionUID = 1501911067906145681L;
 
+	@Id
+	@GeneratedValue
 	private long id;
 
-	private IndividualisedProductItem product;
+	@ManyToOne
+	private AbstractProduct product;
 
 	private int units;
 
@@ -32,11 +37,11 @@ public class ProductBundle implements Serializable {
 		this.units = units;
 	}
 
-	public IndividualisedProductItem getProduct() {
+	public AbstractProduct getProduct() {
 		return this.product;
 	}
 
-	public void setProduct(IndividualisedProductItem product) {
+	public void setProduct(AbstractProduct product) {
 		this.product = product;
 	}
 

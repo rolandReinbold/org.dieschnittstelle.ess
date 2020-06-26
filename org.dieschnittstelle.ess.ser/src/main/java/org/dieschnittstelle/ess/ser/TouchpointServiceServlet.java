@@ -48,12 +48,13 @@ public class TouchpointServiceServlet extends HttpServlet {
 			logger.error(err, e);
 			throw new RuntimeException(e);
 		}
-
 	}
 
 	@Override	
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) {
+
+		logger.info("doPost()");
 
 		// assume POST will only be used for touchpoint creation, i.e. there is
 		// no need to check the uri that has been used
@@ -82,6 +83,37 @@ public class TouchpointServiceServlet extends HttpServlet {
 			// ... and write the object to the stream
 			oos.writeObject(atp);
 		} catch (Exception e) {
+			String err = "got exception: " + e;
+			logger.error(err, e);
+			throw new RuntimeException(e);
+		}
+	}
+
+	@Override
+	protected void doDelete(HttpServletRequest request,
+						  HttpServletResponse response) {
+
+		logger.info("doDelete()");
+
+		// obtain the executor for reading out the touchpoints from the servlet context using the touchpointCRUD attribute
+		TouchpointCRUDExecutor exec = (TouchpointCRUDExecutor) getServletContext().getAttribute("touchpointCRUD");
+
+		try {
+			// get ID
+			String requestURI = request.getRequestURI();
+			String stringTpId = requestURI.substring(requestURI.lastIndexOf('/') + 1);
+			long tpId = Long.parseLong(stringTpId);
+			logger.debug("Extracted touchpoint ID: " + tpId);
+
+			// call the delete method on the executor to delete given touchpoint
+			exec.deleteTouchpoint(tpId);
+
+			// set the response status as successful, using the appropriate
+			// constant from HttpServletResponse
+			response.setStatus(HttpServletResponse.SC_OK);
+		} catch (Exception e) {
+			String err = "got exception: " + e;
+			logger.error(err, e);
 			throw new RuntimeException(e);
 		}
 	}

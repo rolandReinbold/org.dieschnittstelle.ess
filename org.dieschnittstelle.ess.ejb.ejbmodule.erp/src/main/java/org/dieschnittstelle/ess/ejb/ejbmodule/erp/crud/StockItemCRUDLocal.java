@@ -13,6 +13,7 @@ import org.dieschnittstelle.ess.entities.erp.StockItem;
  * this interface shall be implemented using a stateless EJB with an EntityManager.
  * See the comments below for hints at how to implement the methods
  */
+@Local
 public interface StockItemCRUDLocal {
 
     /*
@@ -31,7 +32,7 @@ public interface StockItemCRUDLocal {
      * cascading for merge (only for merge!) and call merge() on item, which results
      * in persisting the item if it does not exist in the database yet
      */
-    public StockItem createStockItem(StockItem item);
+    StockItem createStockItem(StockItem item);
 
     /*
      * use the find() method of the EntityManager and pass it the
@@ -40,18 +41,18 @@ public interface StockItemCRUDLocal {
      * In case you observe an UnknownEntityException when calling this
      * method, check whether StockItem has been declared as an entity.
      */
-    public StockItem readStockItem(IndividualisedProductItem prod, PointOfSale pos);
+    StockItem readStockItem(IndividualisedProductItem prod, PointOfSale pos);
 
     /*
      * use the merge() method of the EntityManager
      */
-    public StockItem updateStockItem(StockItem item);
+    StockItem updateStockItem(StockItem item);
 
     /*
      * here you can create a simple Query using em.createQuery() - see readAllPointsOfSale()
      * in PointOfSaleCRUDStateless as an example
      */
-    public List<StockItem> readAllStockItems();
+    List<StockItem> readAllStockItems();
 
     /*
      * here you can create a Query using the id of the prod object -
@@ -59,11 +60,11 @@ public interface StockItemCRUDLocal {
 	 * CustomerTransactionCRUDStateless (in .ess.ejbmodule.crm) as an
 	 * example
      */
-    public List<StockItem> readStockItemsForProduct(IndividualisedProductItem prod);
+    List<StockItem> readStockItemsForProduct(IndividualisedProductItem prod);
 
     /*
      * here you can create a Query using the id of the pos object
      */
-    public List<StockItem> readStockItemsForPointOfSale(PointOfSale pos);
+    List<StockItem> readStockItemsForPointOfSale(PointOfSale pos);
 
 }

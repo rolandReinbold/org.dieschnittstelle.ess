@@ -11,5 +11,4 @@ Error:
 
 With AbstractProduct (and without @JSONTypeInfo Annotation @AbstractProduct):
 [{"@class":"org.dieschnittstelle.ess.entities.erp.IndividualisedProductItem","id":1,"name":"Schusterjunge","price":0,"productType":"ROLL","expirationAfterStocked":720}]
--> Änderung ist die Erweiterung des JSON-Objektes mit dem key/value Paar für die Klasse.
-
+-> Änderung ist die Erweiterung des JSON-Objektes mit dem key/value-Paar für die Klasse.

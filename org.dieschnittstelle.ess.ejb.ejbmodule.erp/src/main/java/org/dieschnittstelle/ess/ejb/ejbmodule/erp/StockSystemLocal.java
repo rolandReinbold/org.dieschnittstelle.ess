@@ -7,6 +7,7 @@ import javax.ejb.Local;
 import org.dieschnittstelle.ess.entities.erp.IndividualisedProductItem;
 import org.dieschnittstelle.ess.entities.erp.StockItem;
 
+@Local
 public interface StockSystemLocal {
 
 	/**
@@ -16,7 +17,7 @@ public interface StockSystemLocal {
 	 * @param pointOfSaleId
 	 * @param units
 	 */
-	public void addToStock(IndividualisedProductItem product,long pointOfSaleId,int units);
+    void addToStock(IndividualisedProductItem product, long pointOfSaleId, int units);
 
 	/**
 	 * removes some units of a product from the stock of a point of sale
@@ -25,7 +26,7 @@ public interface StockSystemLocal {
 	 * @param pointOfSaleId
 	 * @param units
 	 */
-	public void removeFromStock(IndividualisedProductItem product,long pointOfSaleId,int units);
+    void removeFromStock(IndividualisedProductItem product, long pointOfSaleId, int units);
 	
 	/**
 	 * returns all products on stock of some pointOfSale
@@ -33,14 +34,14 @@ public interface StockSystemLocal {
 	 * @param pointOfSaleId
 	 * @return
 	 */
-	public List<IndividualisedProductItem> getProductsOnStock(long pointOfSaleId);
+    List<IndividualisedProductItem> getProductsOnStock(long pointOfSaleId);
 
 	/**
 	 * returns all products on stock
 	 * 
 	 * @return
 	 */
-	public List<IndividualisedProductItem> getAllProductsOnStock();
+    List<IndividualisedProductItem> getAllProductsOnStock();
 
 	/**
 	 * returns the units on stock for a product at some point of sale
@@ -49,7 +50,7 @@ public interface StockSystemLocal {
 	 * @param pointOfSaleId
 	 * @return
 	 */
-	public int getUnitsOnStock(IndividualisedProductItem product, long pointOfSaleId);
+    int getUnitsOnStock(IndividualisedProductItem product, long pointOfSaleId);
 
 	/**
 	 * returns the total number of units on stock for some product
@@ -57,7 +58,7 @@ public interface StockSystemLocal {
 	 * @param product
 	 * @return
 	 */
-	public int getTotalUnitsOnStock(IndividualisedProductItem product);
+    int getTotalUnitsOnStock(IndividualisedProductItem product);
 	
 	/**
 	 * returns the points of sale where some product is available
@@ -65,7 +66,7 @@ public interface StockSystemLocal {
 	 * @param product
 	 * @return
 	 */
-	public List<Long> getPointsOfSale(IndividualisedProductItem product);
+    List<Long> getPointsOfSale(IndividualisedProductItem product);
 
 
 	/**
@@ -73,6 +74,6 @@ public interface StockSystemLocal {
 	 * 
 	 * @return
 	 */
-	public List<StockItem> getCompleteStock();
+    List<StockItem> getCompleteStock();
 	
 }

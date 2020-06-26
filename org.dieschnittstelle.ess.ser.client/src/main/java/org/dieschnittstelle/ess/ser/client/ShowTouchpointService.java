@@ -2,6 +2,7 @@ package org.dieschnittstelle.ess.ser.client;
 
 import java.io.*;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 import org.apache.http.HttpResponse;
@@ -176,27 +177,43 @@ public class ShowTouchpointService {
 	}
 
 	/**
-	 * TODO SER4
+	 * SER4
 	 * 
 	 * @param tp
 	 */
 	public void deleteTouchpoint(AbstractTouchpoint tp) {
-		logger.info("deleteTouchpoint(): will delete: " + tp);
+		logger.info("deleteTouchpoint() will delete: " + tp);
 
 		createClient();
 
-		logger.debug("client running: {}",client.isRunning());
+		logger.debug("client running: {}", client.isRunning());
 
 		// once you have received a response this is necessary to be able to
 		// use the client for subsequent requests:
-		HttpDelete request = new HttpDelete("url = http://localhost:8888/org.dieschnittstelle.ess.ser/api/touchpoints");
+		long tpId = tp.getId();
+		HttpDelete request = new HttpDelete("http://localhost:8888/org.dieschnittstelle.ess.ser/api/touchpoints/" + tpId);
 
-		// EntityUtils.consume(response.getEntity());
+		try {
+			// Check the response status and consume entity.
+			Future<HttpResponse> httpResponse = client.execute(request, null);
+			HttpResponse response = httpResponse.get();
 
+			logger.debug("response: " + response);
+
+			if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+				EntityUtils.consume(response.getEntity());
+			} else {
+				logger.warn("wrong status: " + response.getStatusLine().getStatusCode());
+			}
+		} catch (InterruptedException | ExecutionException | IOException e) {
+			String err = "got exception: " + e;
+			logger.error(err, e);
+			throw new RuntimeException(e);
+		}
 	}
 
 	/**
-	 * TODO SER3
+	 * SER3
 	 * 
 	 * fuer das Schreiben des zu erzeugenden Objekts als Request Body siehe die
 	 * Hinweise auf:
@@ -214,7 +231,7 @@ public class ShowTouchpointService {
 
 		try {
 			// create post request for the api/touchpoints uri
-			HttpPost request = new HttpPost("url = http://localhost:8888/org.dieschnittstelle.ess.ser/api/touchpoints");
+			HttpPost request = new HttpPost("http://localhost:8888/org.dieschnittstelle.ess.ser/api/touchpoints");
 
 			// create an ObjectOutputStream from a ByteArrayOutputStream - the
 			// latter must be accessible via a variable
@@ -269,7 +286,6 @@ public class ShowTouchpointService {
 			logger.error("got exception: " + e, e);
 			throw new RuntimeException(e);
 		}
-
 	}
 
 	/**
